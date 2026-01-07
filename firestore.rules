@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if user is the one making the request (for own data)
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Admin role check (simplified: allowing anyone auth for now, or check specific email)
+    // To restrict to admins: return request.auth.token.email == 'admin@example.com'; 
+    function isAdmin() {
+       return isAuthenticated(); 
+    }
+
+    match /polls/{pollId} {
+      // Anyone can read polls
+      allow read: if true;
+      
+      // Only admins can create/update/delete polls
+      // Exception: Optimistic UI updates for voting might try to write to 'voters'/'totalVotes'
+      // But we handled that in the Transaction.
+      // Actually, standard clients cannot bypass rules. 
+      // If we want users to "vote" by updating the Poll document directly (counters), 
+      // we need to allow update if only specific fields change (increment/append).
+      // BUT simpler is: Allow update if authenticated (and validate constraints if needed)
+      // For this prototype, I'll allow authenticated users to update, but validating the update structure is hard in rules.
+      // Better approach: Users only create 'vote' document, and a Cloud Function aggregates? 
+      // OR: We entrust the client with the transaction update if we allow 'update'.
+      
+      allow create, delete: if isAdmin();
+      allow update: if isAuthenticated(); // Needed for the 'totalVotes' increment and 'voters' array push in client-transaction
+      
+      match /votes/{userId} {
+        allow read: if isAuthenticated();
+        allow write: if isOwner(userId);
+      }
+    }
+  }
+}

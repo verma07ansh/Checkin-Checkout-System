@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+:root {
+  --font-inter: 'Inter', sans-serif;
+  --font-garamond: 'EB Garamond', serif;
+  --font-space-mono: 'Space Mono', monospace;
+}
