@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-neutral-50 text-neutral-900 font-sans selection:bg-black selection:text-white">
       {/* Hero Section */}
-      <div className="h-screen flex flex-col items-center justify-center relative p-6 border-b-4 border-black">
+      <div className="h-[85vh] flex flex-col items-center justify-center relative p-6 border-b-4 border-black">
         <div className="max-w-4xl text-center space-y-8 z-10">
           <div className="inline-block border-2 border-black bg-white px-4 py-1.5 font-bold text-sm tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-4">
             OFFICIAL CHECK-IN SYSTEM
