@@ -13,19 +13,19 @@ export const metadata: Metadata = {
     default: 'Event Check-in Manager – Secure Entry System',
     template: '%s | Event Manager',
   },
-  description: 'Official Event Manager and Check-in System. Secure, fast, and reliable entry management with real-time QR code validation for E-Cell events.',
-  keywords: ['Event Management', 'Check-in System', 'QR Scanner', 'Entry Control', 'E-Cell', 'Secure Entry'],
-  authors: [{ name: 'E-Cell Team' }],
+  description: 'Official Event Manager and Check-in System. Secure, fast, and reliable entry management with real-time QR code validation for events.',
+  keywords: ['Event Management', 'Check-in System', 'QR Scanner', 'Entry Control', 'Secure Entry'],
+  authors: [{ name: 'Team' }],
   openGraph: {
     title: 'Event Check-in Manager – Secure Entry System',
-    description: 'Secure, fast, and reliable entry management with real-time QR code validation for E-Cell events.',
+    description: 'Secure, fast, and reliable entry management with real-time QR code validation for events.',
     siteName: 'Event Check-in Manager',
     images: [
       {
-        url: '/E-cell Logo.svg',
+        url: '/logo.png',
         width: 800,
         height: 600,
-        alt: 'E-Cell Logo',
+        alt: 'Logo',
       },
     ],
     locale: 'en_US',
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Event Check-in Manager – Secure Entry System',
-    description: 'Secure, fast, and reliable entry management with real-time QR code validation for E-Cell events.',
-    images: ['/E-cell Logo.svg'],
+    description: 'Secure, fast, and reliable entry management with real-time QR code validation for events.',
+    images: ['/logo.png'],
   },
   robots: {
     index: true,
