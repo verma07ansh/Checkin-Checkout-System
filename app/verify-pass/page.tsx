@@ -82,30 +82,31 @@ function VerifyPassContent() {
 
     const handleDownload = async () => {
         setIsDownloading(true);
-        const startTime = Date.now();
         try {
             const response = await fetch(passURL);
             const blob = await response.blob();
-
-            // Ensure minimum 1.5 seconds animation
-            const elapsed = Date.now() - startTime;
-            if (elapsed < 1500) {
-                await new Promise(resolve => setTimeout(resolve, 1500 - elapsed));
-            }
-
             const url = window.URL.createObjectURL(blob);
+
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
+
             const safeEventName = (eventName || 'Event').replace(/[^a-z0-9]/gi, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
             const safeUserName = (userName || 'User').replace(/[^a-z0-9]/gi, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
             a.download = `Event-Pass-${safeEventName}-${safeUserName}.png`;
+
             document.body.appendChild(a);
+
+            // Try standard download
             a.click();
+
+            // Cleanup
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
+
         } catch (error) {
             console.error('Download failed', error);
+            // Fallback: Open in new tab
             window.open(passURL, '_blank');
         } finally {
             setIsDownloading(false);
