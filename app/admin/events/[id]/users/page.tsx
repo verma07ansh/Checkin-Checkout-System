@@ -142,7 +142,7 @@ export default function EventUsersPage() {
         reader.readAsBinaryString(file);
     };
 
-    const executeGeneratePasses = async () => {
+    const executeGeneratePasses = async (force = false) => {
         if (!event) return;
         setProcessing(true);
         let successCount = 0;
@@ -152,13 +152,20 @@ export default function EventUsersPage() {
             for (const user of users) {
                 const currentConfigHash = JSON.stringify({
                     t: event.passTemplateURL,
-                    q: event.qrPosition,
+                    q: {
+                        x: event.qrPosition.x,
+                        y: event.qrPosition.y,
+                        size: event.qrPosition.size,
+                        rot: event.qrPosition.rotation,
+                        col: event.qrPosition.color,
+                        bg: event.qrPosition.bgColor
+                    },
                     n: event.namePosition
                 });
 
                 // Check if pass needs regeneration
-                if (user.passURL && user.passConfigHash === currentConfigHash) {
-                    console.log(`Skipping generation for ${user.email} - Pass up to date`);
+                if (!force && user.passURL && user.passConfigHash === currentConfigHash) {
+                    // console.log(`Skipping generation for ${user.email} - Pass up to date`);
                     continue; // Skip if pass exists and config hasn't changed
                 }
 
@@ -204,7 +211,14 @@ export default function EventUsersPage() {
 
         const currentConfigHash = JSON.stringify({
             t: event.passTemplateURL,
-            q: event.qrPosition,
+            q: {
+                x: event.qrPosition.x,
+                y: event.qrPosition.y,
+                size: event.qrPosition.size,
+                rot: event.qrPosition.rotation,
+                col: event.qrPosition.color,
+                bg: event.qrPosition.bgColor
+            },
             n: event.namePosition
         });
 
@@ -218,7 +232,7 @@ export default function EventUsersPage() {
             title: 'GENERATE PASSES',
             message: message,
             confirmText: 'GENERATE',
-            onConfirm: executeGeneratePasses
+            onConfirm: () => executeGeneratePasses(pendingUsers === 0)
         });
     };
 

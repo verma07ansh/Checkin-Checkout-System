@@ -21,6 +21,8 @@ export interface Event {
     y: number;
     size: number;
     rotation?: number;
+    color?: string;
+    bgColor?: string; // Hex color or 'transparent'
   };
   namePosition?: {
     x: number;

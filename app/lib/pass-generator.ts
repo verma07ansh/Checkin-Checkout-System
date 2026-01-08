@@ -11,7 +11,11 @@ export async function generateEventPass(event: Event, user: EventUser): Promise<
         const qrDataUrl = await QRCode.toDataURL(qrData, {
             width: event.qrPosition.size,
             margin: 1,
-            errorCorrectionLevel: 'H'
+            errorCorrectionLevel: 'H',
+            color: {
+                dark: event.qrPosition.color || '#000000',
+                light: event.qrPosition.bgColor || '#00000000' // transparent if not set
+            }
         });
 
         // 2. Load Images

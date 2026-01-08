@@ -32,6 +32,9 @@ export default function EditEventPage() {
     const [qrY, setQrY] = useState(50);
     const [qrSize, setQrSize] = useState(250);
     const [qrRotation, setQrRotation] = useState(0);
+    const [qrColor, setQrColor] = useState('#000000');
+    const [qrBgColor, setQrBgColor] = useState('#ffffff');
+    const [qrBgEnabled, setQrBgEnabled] = useState(false);
 
     // Name Position State
     const [nameX, setNameX] = useState(50);
@@ -68,6 +71,14 @@ export default function EditEventPage() {
                         setQrY(data.qrPosition.y || 50);
                         setQrSize(data.qrPosition.size || 250);
                         setQrRotation(data.qrPosition.rotation || 0);
+                        setQrColor(data.qrPosition.color || '#000000');
+                        if (data.qrPosition.bgColor && data.qrPosition.bgColor !== '#00000000') {
+                            setQrBgColor(data.qrPosition.bgColor);
+                            setQrBgEnabled(true);
+                        } else {
+                            setQrBgEnabled(false);
+                            setQrBgColor('#ffffff'); // Default to white for picker if disabled
+                        }
                     }
                     if (data.namePosition) {
                         setNameX(data.namePosition.x || 50);
@@ -214,7 +225,9 @@ export default function EditEventPage() {
                     x: Number(qrX),
                     y: Number(qrY),
                     size: Number(qrSize),
-                    rotation: Number(qrRotation)
+                    rotation: Number(qrRotation),
+                    color: qrColor,
+                    bgColor: qrBgEnabled ? qrBgColor : '#00000000'
                 },
                 namePosition: {
                     x: Number(nameX),
@@ -350,6 +363,42 @@ export default function EditEventPage() {
                                                     value={qrRotation}
                                                     onChange={e => setQrRotation(Number(e.target.value))}
                                                     className="w-full border-2 border-black p-2 font-mono"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-bold">Rotation (deg)</label>
+                                                <input
+                                                    type="number"
+                                                    value={qrRotation}
+                                                    onChange={e => setQrRotation(Number(e.target.value))}
+                                                    className="w-full border-2 border-black p-2 font-mono"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-bold">QR Color</label>
+                                                <input
+                                                    type="color"
+                                                    value={qrColor}
+                                                    onChange={e => setQrColor(e.target.value)}
+                                                    className="w-full border-2 border-black p-1 h-10 cursor-pointer"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <div className="flex items-center justify-between">
+                                                    <label className="text-xs font-bold">Background</label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={qrBgEnabled}
+                                                        onChange={e => setQrBgEnabled(e.target.checked)}
+                                                        className="w-4 h-4 border-2 border-black"
+                                                    />
+                                                </div>
+                                                <input
+                                                    type="color"
+                                                    value={qrBgColor}
+                                                    onChange={e => setQrBgColor(e.target.value)}
+                                                    disabled={!qrBgEnabled}
+                                                    className="w-full border-2 border-black p-1 h-10 cursor-pointer disabled:opacity-50"
                                                 />
                                             </div>
                                         </div>

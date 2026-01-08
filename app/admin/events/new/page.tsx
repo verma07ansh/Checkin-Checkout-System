@@ -27,6 +27,9 @@ export default function CreateEventPage() {
     const [qrY, setQrY] = useState(50);
     const [qrSize, setQrSize] = useState(250); // Increased default for visibility
     const [qrRotation, setQrRotation] = useState(0);
+    const [qrColor, setQrColor] = useState('#000000');
+    const [qrBgColor, setQrBgColor] = useState('#ffffff');
+    const [qrBgEnabled, setQrBgEnabled] = useState(false);
 
     // Name Position State
     const [nameX, setNameX] = useState(50);
@@ -167,7 +170,9 @@ export default function CreateEventPage() {
                     x: Number(qrX),
                     y: Number(qrY),
                     size: Number(qrSize),
-                    rotation: Number(qrRotation)
+                    rotation: Number(qrRotation),
+                    color: qrColor,
+                    bgColor: qrBgEnabled ? qrBgColor : '#00000000'
                 },
                 namePosition: {
                     x: Number(nameX),
@@ -305,6 +310,33 @@ export default function CreateEventPage() {
                                                     value={qrRotation}
                                                     onChange={e => setQrRotation(Number(e.target.value))}
                                                     className="w-full border-2 border-black p-2 font-mono"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-bold">QR Color</label>
+                                                <input
+                                                    type="color"
+                                                    value={qrColor}
+                                                    onChange={e => setQrColor(e.target.value)}
+                                                    className="w-full border-2 border-black p-1 h-10 cursor-pointer"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <div className="flex items-center justify-between">
+                                                    <label className="text-xs font-bold">Background</label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={qrBgEnabled}
+                                                        onChange={e => setQrBgEnabled(e.target.checked)}
+                                                        className="w-4 h-4 border-2 border-black"
+                                                    />
+                                                </div>
+                                                <input
+                                                    type="color"
+                                                    value={qrBgColor}
+                                                    onChange={e => setQrBgColor(e.target.value)}
+                                                    disabled={!qrBgEnabled}
+                                                    className="w-full border-2 border-black p-1 h-10 cursor-pointer disabled:opacity-50"
                                                 />
                                             </div>
                                         </div>
