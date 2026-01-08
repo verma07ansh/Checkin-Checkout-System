@@ -42,7 +42,7 @@ export default function Home() {
 
           <Link
             href="/verify-pass"
-            className="group block w-full bg-black text-white py-6 text-xl font-bold tracking-widest hover:bg-neutral-800 transition-all shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:translate-x-1 hover:translate-y-1 relative overflow-hidden"
+            className="group block w-full bg-black text-white py-6 text-xl font-bold tracking-widest hover:bg-neutral-800 transition-all border-2 border-yellow-50 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 relative overflow-hidden"
           >
             <div className="relative z-10 flex items-center justify-center gap-3">
               <Scan className="w-6 h-6 group-hover:scale-110 transition-transform" />

@@ -343,6 +343,29 @@ export default function EventUsersPage() {
             setProcessing(false);
         }
     };
+    const handleDownloadSample = () => {
+        const sampleData = [
+            {
+                "Name": "John Doe",
+                "Email": "john@example.com",
+                "Branch": "CSE",
+                "Year": "3",
+                "Section": "A"
+            },
+            {
+                "Name": "Jane Smith",
+                "Email": "jane@example.com",
+                "Branch": "ECE",
+                "Year": "2",
+                "Section": "B"
+            }
+        ];
+
+        const ws = XLSX.utils.json_to_sheet(sampleData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Sample");
+        XLSX.writeFile(wb, "sample_users.csv");
+    };
 
     if (loading) return <div className="p-8">Loading...</div>;
     if (!event) return <div className="p-8">Event not found</div>;
@@ -361,6 +384,13 @@ export default function EventUsersPage() {
                         IMPORT CSV
                         <input type="file" accept=".csv,.xlsx,.xls" onChange={handleFileUpload} className="hidden" />
                     </label>
+                    <button
+                        onClick={handleDownloadSample}
+                        className="flex items-center gap-2 bg-white border-2 border-black px-4 py-2 font-bold hover:bg-gray-50 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-sm"
+                    >
+                        <FileSpreadsheet className="w-4 h-4" />
+                        SAMPLE CSV
+                    </button>
                     <button
                         onClick={handleExportExcel}
                         disabled={processing}

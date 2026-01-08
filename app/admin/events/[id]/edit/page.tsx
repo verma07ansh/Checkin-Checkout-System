@@ -407,6 +407,14 @@ export default function EditEventPage() {
                                                     <option value="Verdana">Verdana</option>
                                                     <option value="Georgia">Georgia</option>
                                                     <option value="Impact">Impact</option>
+                                                    <option value="Tahoma">Tahoma</option>
+                                                    <option value="Trebuchet MS">Trebuchet MS</option>
+                                                    <option value="Segoe UI">Segoe UI</option>
+                                                    <option value="Roboto">Roboto</option>
+                                                    <option value="Helvetica">Helvetica</option>
+                                                    <option value="Gill Sans">Gill Sans</option>
+                                                    <option value="Brush Script MT">Brush Script MT</option>
+                                                    <option value="Comic Sans MS">Comic Sans MS</option>
                                                 </select>
                                             </div>
                                             <div className="space-y-1">
