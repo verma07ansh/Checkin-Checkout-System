@@ -22,6 +22,7 @@ function VerifyPassContent() {
     const [eventName, setEventName] = useState('');
     const [verifiedUser, setVerifiedUser] = useState<{ name: string, email: string, eventName: string, eventDate: string } | null>(null);
     const [userName, setUserName] = useState('');
+    const [isDownloading, setIsDownloading] = useState(false);
 
     useEffect(() => {
         if (eventId) {
@@ -80,9 +81,18 @@ function VerifyPassContent() {
     };
 
     const handleDownload = async () => {
+        setIsDownloading(true);
+        const startTime = Date.now();
         try {
             const response = await fetch(passURL);
             const blob = await response.blob();
+
+            // Ensure minimum 1.5 seconds animation
+            const elapsed = Date.now() - startTime;
+            if (elapsed < 1500) {
+                await new Promise(resolve => setTimeout(resolve, 1500 - elapsed));
+            }
+
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.style.display = 'none';
@@ -97,6 +107,8 @@ function VerifyPassContent() {
         } catch (error) {
             console.error('Download failed', error);
             window.open(passURL, '_blank');
+        } finally {
+            setIsDownloading(false);
         }
     };
 
@@ -430,10 +442,20 @@ function VerifyPassContent() {
 
                             <button
                                 onClick={handleDownload}
-                                className="w-full bg-green-400 text-black border-4 border-black py-4 font-black text-lg hover:bg-green-500 hover:-translate-y-1 transition-all uppercase flex items-center justify-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                                disabled={isDownloading}
+                                className={`w-full bg-green-400 text-black border-4 border-black py-4 font-black text-lg transition-all uppercase flex items-center justify-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${isDownloading ? 'opacity-70 cursor-wait' : 'hover:bg-green-500 hover:-translate-y-1'}`}
                             >
-                                <Download className="w-6 h-6" strokeWidth={3} />
-                                DOWNLOAD TICKET
+                                {isDownloading ? (
+                                    <>
+                                        <Loader2 className="w-6 h-6 animate-spin" />
+                                        DOWNLOADING...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Download className="w-6 h-6" strokeWidth={3} />
+                                        DOWNLOAD TICKET
+                                    </>
+                                )}
                             </button>
                         </div>
                     )}
